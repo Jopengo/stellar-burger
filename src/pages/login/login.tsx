@@ -6,10 +6,9 @@ import {
   selectUser,
   selectLoginError,
   selectIsUserDataLoading
-} from '../../slices/user/user';
+} from '../../slices/user';
 import { Navigate } from 'react-router';
 import { Preloader } from '@ui';
-import { setCookie } from '../../utils/cookie';
 
 export const Login: FC = () => {
   const [email, setEmail] = useState('');
@@ -21,16 +20,7 @@ export const Login: FC = () => {
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    dispatch(loginUser({ email, password }))
-      .unwrap()
-      .then((action) => {
-        localStorage.setItem('refreshToken', action.refreshToken);
-        setCookie('accessToken', action.accessToken);
-      })
-      .catch(() => {
-        localStorage.setItem('refreshToken', '');
-        setCookie('accessToken', '');
-      });
+    dispatch(loginUser({ email, password }));
   };
 
   return isLoading ? (

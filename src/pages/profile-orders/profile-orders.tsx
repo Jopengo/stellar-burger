@@ -4,19 +4,20 @@ import { useDispatch, useSelector } from '../../services/store';
 import {
   selectOrders,
   fetchOrders,
-  selectIsLoading
-} from '../../slices/order/order';
+  selectIsDataLoading
+} from '../../slices/burger';
 import { Preloader } from '@ui';
+import { isLoadingType } from '../../utils/checkLoad';
 
 export const ProfileOrders: FC = () => {
   const orders = useSelector(selectOrders);
-  const isLoading = useSelector(selectIsLoading);
+  const isDataLoading = useSelector(selectIsDataLoading);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchOrders());
   }, []);
 
-  if (isLoading) return <Preloader />;
+  if (isLoadingType(isDataLoading, 'fetchOrders')) return <Preloader />;
   else return <ProfileOrdersUI orders={orders} />;
 };

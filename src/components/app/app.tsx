@@ -21,15 +21,16 @@ import { Modal } from '../modal';
 import { OrderInfo } from '../../components/order-info';
 import { IngredientDetails } from '../../components/ingredient-details';
 import { useSelector, useDispatch } from '../../services/store';
-import { getUser, selectIsUserDataLoading } from '../../slices/user/user';
-import { fetchIngredients } from '../../slices/ingredients/ingredients';
+import { getUser, selectIsUserDataLoading } from '../../slices/user';
+import { fetchIngredients } from '../../slices/burger';
 import { useNavigate, useLocation } from 'react-router';
 import { getCookie } from '../../utils/cookie';
+import { isLoadingType } from '../../utils/checkLoad';
 
 const App = () => {
   const location = useLocation();
   const background = location.state?.background;
-  const isUserLoading = useSelector(selectIsUserDataLoading);
+  const isUselLoading = useSelector(selectIsUserDataLoading);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -37,6 +38,10 @@ const App = () => {
     navigate(-1);
   };
 
+  /**
+   * Функция формирующая локальный заголовок заказа из хука
+   * @returns - строка № заказа
+   */
   const getParamNumber = (): string => {
     const par = useParams();
     return '#' + par.number!;
@@ -44,7 +49,7 @@ const App = () => {
 
   useEffect(() => {
     const atoken = getCookie('accessToken');
-    if (atoken && !isUserLoading) dispatch(getUser());
+    if (atoken && !isLoadingType(isUselLoading, 'getUser')) dispatch(getUser());
     dispatch(fetchIngredients());
   }, []);
 
