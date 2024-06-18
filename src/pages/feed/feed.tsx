@@ -6,8 +6,7 @@ import {
   selectFeeds,
   fetchFeeds,
   selectIsDataLoading
-} from '../../slices/burger';
-import { isLoadingType } from '../../utils/checkLoad';
+} from '../../slices/feeds/feed';
 
 export const Feed: FC = () => {
   const orders = useSelector(selectFeeds);
@@ -18,7 +17,7 @@ export const Feed: FC = () => {
     if (orders.length === 0) dispatch(fetchFeeds());
   }, []);
 
-  return isLoadingType(isLoadind, 'fetchFeeds') ? (
+  return isLoadind ? (
     <Preloader />
   ) : (
     <FeedUI orders={orders} handleGetFeeds={() => dispatch(fetchFeeds())} />
