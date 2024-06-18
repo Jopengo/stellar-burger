@@ -1,5 +1,3 @@
-/// <reference types="cypress" />
-
 describe('проверяем доступность приложения', function () {
   beforeEach(function () {
     cy.setCookie('accessToken', '12345');
