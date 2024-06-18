@@ -1,8 +1,9 @@
 import { useSelector } from '../../services/store';
-import { selectUser, selectIsUserDataLoading } from '../../slices/user/user';
+import { selectUser, selectIsUserDataLoading } from '../../slices/user';
 import { Navigate, useLocation, Outlet } from 'react-router';
 import { Preloader } from '../ui/preloader';
 import { getCookie } from '../../utils/cookie';
+import { isLoadingType } from '../../utils/checkLoad';
 
 type ProtectedRouteProps = {
   onlyUnAuth?: boolean;
@@ -25,7 +26,7 @@ export const ProtectedRoute = ({
 
   const atoken = getCookie('accessToken');
 
-  if (isLoading && atoken) {
+  if (isLoadingType(isLoading, 'getUser') && atoken) {
     // пока идёт чекаут пользователя, показываем прелоадер
     return <Preloader />;
   }

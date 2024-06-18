@@ -8,20 +8,22 @@ import {
   orderBurger,
   selectOrderModalData,
   setOrderModalData,
-  selectIsLoading
-} from '../../slices/burger/burger';
-import { selectUser } from '../../slices/user/user';
+  selectIsDataLoading
+} from '../../slices/burger';
+import { selectUser } from '../../slices/user';
+import { isLoadingType } from '../../utils/checkLoad';
 
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
   const constructorItems = useSelector(selectburgerConstructor);
-  const isLoading = useSelector(selectIsLoading);
+  const isLoading = useSelector(selectIsDataLoading);
   const orderModalData = useSelector(selectOrderModalData);
+  const isOrder = isLoadingType(isLoading, 'orderBurger');
   const user = useSelector(selectUser);
   const navigate = useNavigate();
 
   const onOrderClick = () => {
-    if (!constructorItems.bun || isLoading) return;
+    if (!constructorItems.bun || isOrder) return;
     if (!user) navigate('/login');
     else {
       const ids = [
@@ -47,7 +49,7 @@ export const BurgerConstructor: FC = () => {
   return (
     <BurgerConstructorUI
       price={price}
-      orderRequest={isLoading}
+      orderRequest={isOrder}
       constructorItems={constructorItems}
       orderModalData={orderModalData}
       onOrderClick={onOrderClick}

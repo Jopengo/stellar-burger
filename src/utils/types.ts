@@ -20,8 +20,6 @@ export type TBurgerConstructor = {
   bun: Partial<TIngredient> | null;
   ingredients: TConstructorIngredient[];
   orderModalData: TOrder | null;
-  isLoading: boolean;
-  error: string;
 };
 
 export type TOrder = {
@@ -46,8 +44,8 @@ export type TUser = {
 };
 
 export type TUserState = {
-  isAuthChecked: boolean; // флаг для статуса проверки токена пользователя - проверен ли в независимости от результата
-  isAuthenticated: boolean; // успешно авторизован?
+  isAuthChecked: boolean;
+  isAuthenticated: boolean;
   loginUserRequest: boolean;
   loginError: string;
 };
