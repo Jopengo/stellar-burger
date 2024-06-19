@@ -17,10 +17,10 @@ describe('проверяем доступность приложения', funct
   it('добавление ингредиента из списка в конструктор', function () {
     cy.get('[data-cy=ingredient-1]').contains('Добавить').click();
     cy.get('[data-cy=constructor-bun-top]')
-      .contains('Булка N1')
+      .contains('Краторная булка')
       .should('exist');
     cy.get('[data-cy=constructor-bun-bottom]')
-      .contains('Булка N1')
+      .contains('Краторная булка')
       .should('exist');
     cy.get('[data-cy=ingredient-2]').contains('Добавить').click();
     cy.get('[data-cy=ingredient-2]').contains('Добавить').click();
@@ -39,7 +39,7 @@ describe('проверяем доступность приложения', funct
     cy.get('[data-cy=IngredientDetailsUI]').should('not.exist');
     cy.get('[data-cy=ingredient-1] > a').click();
     cy.get('[data-cy=modalUI]').should('exist');
-    cy.get('[data-cy=ingredient-name]').should('have.text', 'Булка N1');
+    cy.get('[data-cy=ingredient-name]').should('have.text', 'Краторная булка');
     cy.get('[data-cy=modal-close-button]').click();
     cy.get('[data-cy=modalUI]').should('not.exist');
     cy.get('[data-cy=ingredient-1] > a').click();
