@@ -61,14 +61,12 @@ const constructorSlice = createSlice({
     },
 
     downIngredient: (state, action: PayloadAction<string>) => {
-      for (let i = 0; i < state.ingredients.length - 1; i++)
-        if (state.ingredients[i].id === action.payload) {
-          const temp = state.ingredients[i + 1];
-          state.ingredients[i + 1] = state.ingredients[i];
-          state.ingredients[i] = temp;
-          break;
-        }
+      const index = state.ingredients.findIndex(ingredient => ingredient.id === action.payload);
+      if (index !== -1 && index < state.ingredients.length - 1) {
+        [state.ingredients[index], state.ingredients[index + 1]] = [state.ingredients[index + 1], state.ingredients[index]];
+      }
     }
+    
   },
   selectors: {
     selectburgerConstructor: (sliceState) => sliceState,

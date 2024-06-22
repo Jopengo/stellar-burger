@@ -171,14 +171,17 @@ describe('[constructor] - редактирование', () => {
       addIngredient(testIngredients[3])
     );
     expect(newState.ingredients.length).toBe(3);
+  
     const newStateForOrder = constructorBurgerReducer(
       newState,
       downIngredient(newState.ingredients[0].id)
     );
+  
     expect(newStateForOrder.ingredients[0]._id).toEqual(testIngredients[2]._id);
-    expect(newStateForOrder.ingredients[1]._id).toEqual(testIngredients[0]._id);
+    expect(newStateForOrder.ingredients[1]._id).toEqual(testIngredients[1]._id); 
     expect(newStateForOrder.ingredients[2]._id).toEqual(testIngredients[3]._id);
   });
+  
 });
 
 describe('[constructor] - отправка заказа', () => {

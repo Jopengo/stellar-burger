@@ -11,7 +11,7 @@ describe('проверяем доступность приложения', funct
         cy.setCookie('accessToken', '12345');
         cy.intercept('GET', 'api/ingredients', { fixture: 'ingredients.json' });
         cy.intercept('GET', 'api/auth/user', { fixture: 'getuser.json' });
-        cy.intercept('POST', 'api/orders', { fixture: 'afterorder.json' }).as('postOrder');
+        cy.intercept('POST', 'api/orders', { fixture: 'afterorder.json' }).as('postOrder'); 
         cy.intercept('POST', 'api/auth/login', { fixture: 'loginuser.json' });
         cy.visit(testUrl);
     });
@@ -46,10 +46,20 @@ describe('проверяем доступность приложения', funct
         cy.get(modalSelector).should('not.exist');
     });
 
-    it('фунцкионал создания заказа', function () {
+    it('функционал создания заказа', function () {
         cy.get(ingredientSelector).contains('Добавить').click();
         cy.get('[data-cy=ingredient-2]').contains('Добавить').click().click();
         cy.get(orderButtonSelector).contains('Оформить заказ').click();
+
+        cy.wait('@postOrder').then((interception) => {
+            const { request, response } = interception;
+            expect(response.body).to.have.property('order');
+            expect(response.body.order).to.have.property('number', 42216);
+
+            expect(request.body).to.have.property('ingredients');
+            expect(request.body.ingredients).to.be.an('array').that.is.not.empty;
+        });
+
         cy.get(modalSelector).should('exist');
         cy.get('[data-cy=order-number]').should('have.text', '42216');
         cy.get('[data-cy=modal-close-button]').click();
